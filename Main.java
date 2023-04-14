@@ -7,3 +7,4 @@ public class Main {
         System.out.println("I just goave myself a head ache");
     }
 }
+//bing bong fick this shit
