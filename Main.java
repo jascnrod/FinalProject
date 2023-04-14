@@ -1,14 +1,40 @@
-//this is the main
-//what is going on
-//testing editing the file on gitrhub
-//ok so we can make changes on github
+import java.util.Scanner;
+
 public class Main {
     public static void main ( String []  args) {
-        System.out.println("I just goave myself a head ache");
-        System.out.println("testing branches if, this works everyone should have their own branch maybe.");
+       int x = 0 ;
+       Scanner scanner = new Scanner(System.in);
+       while(x != 7){
+            System.out.println(
+            "1: Add a new faculty to the schedule.\n" +
+            "2: Enroll a student to a lecture (and to of of its labs if applicable)\n"+
+            "3: Print the Schedule of a faculty.\n" +
+            "4: Print the schedule of an TA.\n" +
+            "5: Print the schedule of a student.\n" +
+            "6: Delete a scheduled lecture\n" +
+            "7: Exit Program");
+            System.out.println("Type the number for what you want to do.");
+            x = scanner.nextInt();
+            switch (x) {
+                case 1:
+                break;
+                case 2:
+                break;
+                case 3:
+                break;
+                case 4:
+                break;
+                case 5:
+                break;
+                case 6:
+                break;
+                case 7:
+                break;
+                
+            }
+            
+        }
+        scanner.close();
     }
 }
-//bing bong fick this shit
-//jason change to main
 
-//it worked lol - gabo
