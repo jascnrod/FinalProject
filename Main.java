@@ -38,3 +38,53 @@ public class Main {
     }
 }
 
+//this is the top dog, everything will inherit from this. the Array list will be initialized as a Identity
+class Knight {
+    private int ucfid = 0;
+    private String name;
+
+    public int getUcfid() {
+        return ucfid;
+    }
+    public void setUcfid(int ucfid) {
+        this.ucfid = ucfid;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+}
+
+class Student extends Knight {
+//student specific info Type:grad,undergrad
+//possible list of lec/lab attended
+
+
+}
+
+class TA extends Student {
+//TA specific info: 
+//List of labs supervised
+//Advisor
+//Expected degree
+//possible list of lec/lab attended
+
+
+    
+}
+
+class Faculty extends Knight {
+//Faculty specific:
+//Rank
+//List of lectures taught
+
+    
+}
+
+
+
+
+
