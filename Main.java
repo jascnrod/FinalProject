@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 // what up foolz
 //uh oh stinky
+//hellos
 
 // jasdjfjjdsfjajasdfj
 public class Main {
@@ -254,7 +255,7 @@ class List {
             if (e.getUcfid() != id) {    
                 return true;
             }
-            }
+        }
 
         return false;
     }
