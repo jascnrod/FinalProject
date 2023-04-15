@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// what up foolz
+
 public class Main {
     public static void main(String[] args) {
         int x = 0, INPUTMAX = 6;
