@@ -3,11 +3,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        int x = 0, INPUTMAX = 5;
+        int x = 0, INPUTMAX = 6;
         Scanner scanner = new Scanner(System.in);
         ArrayList<Knight> list = new ArrayList<Knight>();// Array list adds objects to it infinitely no need to
         while (x != 7) {
             int count = 0;// goes through input array
+            String garbagestr;
             String[] userInputStr = new String[INPUTMAX];
             System.out.println(
                 "1: Add a new faculty to the schedule.\n" +
@@ -19,10 +20,11 @@ public class Main {
                 "7: Exit Program");
                 System.out.println("Type the number for what you want to do.");
                 x = scanner.nextInt();
-            
+                garbagestr = scanner.nextLine();
             //There needs to be exception handling the entry of the wrong numbers 
             switch (x) {
                 case 1:
+                    Knight tempFuckalty = new Faculty();
                     //there needs to be exception handling for the input of incorrect info
                     System.out.print("Enter UCF id:");
                     userInputStr[count] = scanner.nextLine();
@@ -43,6 +45,8 @@ public class Main {
                     System.out.print("Enter the crns of the lectures to assign to this faculty");
                     //Crns are seperated by spaces from user
                     userInputStr[count] = scanner.nextLine();
+                    
+
 
                     //   If a lecture has labs, ask to enter the UCF id of the TA for each lab (a TA
                     //   may do more than one Lab). This may require entering a new TA to the system,
@@ -152,7 +156,63 @@ class Faculty extends Knight {
     // Faculty specific:
     // Rank
     // List of lectures taught
-    private String rank;
+    private String rank,office;
     private String[] lectureArr;
+    private int numLectures;
 
+    public void add (String[] bonk , int length) {
+        int count = 0;
+        switch (length) {
+            case 5:
+                count++;
+                setUcfid(Integer.parseInt(bonk[count]));
+                setName(bonk[count]);
+                count++;
+                setRank(bonk[count]);
+                count++;
+                setOffice(bonk[count]);
+                count++;
+                setNumLectures(Integer.parseInt(bonk[count]));
+                count++;
+                setLectureArr((bonk[count]).split(" "));
+                break;
+            case 2:
+                //if the faculty already exists
+                break;
+            
+        
+        }
+
+    }
+
+    public String getOffice() {
+        return office;
+    }
+
+    public void setOffice(String office) {
+        this.office = office;
+    }
+
+    public int getNumLectures() {
+        return numLectures;
+    }
+
+    public void setNumLectures(int numLectures) {
+        this.numLectures = numLectures;
+
+    }
+
+    public String getRank() {
+        return rank;
+    }
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+    public String[] getLectureArr() {
+        return lectureArr;
+    }
+    public void setLectureArr(String[] lectureArr) {
+        this.lectureArr = lectureArr;
+    }
+    
 }
