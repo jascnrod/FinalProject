@@ -15,6 +15,7 @@ public class Main {
         
         while (x != 7) {
             int count = 0;// goes through input array
+            Boolean check = true;
             String garbagestr;
             String[] userInputStr = new String[INPUTMAX];
             System.out.println(
@@ -35,26 +36,40 @@ public class Main {
                     //there needs to be exception handling for the input of incorrect info
                     System.out.print("Enter UCF id:");
                     userInputStr[count] = scanner.nextLine();
+                    check = list.checkId(Integer.parseInt(userInputStr[count]));
                     count++;
+                    if (check){
+                        // needs to check if id already exists
+                        System.out.print("Enter name: ");
+                        userInputStr[count] = scanner.nextLine();
+                        count++;
+                        System.out.print("Enter rank: ");
+                        userInputStr[count] = scanner.nextLine();
+                        count++;
+                        System.out.print("Enter office location: ");
+                        userInputStr[count] = scanner.nextLine();
+                        count++;
+                        System.out.print("Enter how many lectures: ");
+                        userInputStr[count] = scanner.nextLine();
+                        count++;
+                        System.out.print("Enter the crns of the lectures to assign to this faculty: ");
+                        //Crns are seperated by spaces from user
+                        userInputStr[count] = scanner.nextLine();
+                        tempFukalty.add(userInputStr,count);
+                        list.facultyAdd(tempFukalty);
+                    }
+                    else {
+                        System.out.print("Enter how many lectures: ");
+                        userInputStr[count] = scanner.nextLine();
+                        count++;
+                        System.out.print("Enter the crns of the lectures to assign to this faculty: ");
+                        //Crns are seperated by spaces from user
+                        //need to check if crn is assigned, if assigned change num of lectures
+                        userInputStr[count] = scanner.nextLine();
+                        tempFukalty.add(userInputStr,count);
+                        list.facultyAdd(tempFukalty);
 
-                    // needs to check if id already exists
-                    System.out.print("Enter name: ");
-                    userInputStr[count] = scanner.nextLine();
-                    count++;
-                    System.out.print("Enter rank: ");
-                    userInputStr[count] = scanner.nextLine();
-                    count++;
-                    System.out.print("Enter office location: ");
-                    userInputStr[count] = scanner.nextLine();
-                    count++;
-                    System.out.print("Enter how many lectures: ");
-                    userInputStr[count] = scanner.nextLine();
-                    count++;
-                    System.out.print("Enter the crns of the lectures to assign to this faculty: ");
-                    //Crns are seperated by spaces from user
-                    userInputStr[count] = scanner.nextLine();
-                    tempFukalty.add(userInputStr,count);
-                    list.facultyAdd(tempFukalty);
+                    }
                     
 
                     
@@ -229,8 +244,18 @@ class Faculty extends Knight {
     
 }
 class List {
-    private static ArrayList<Knight> list = new ArrayList<Knight>();// Array list adds objects to it infinitely no need to
+    private static ArrayList<Knight> list = new ArrayList<Knight>();// Array list adds objects to it infinitely no need to update length
     
+    public boolean checkId (int id) {
+
+        for (Knight e : list) {
+            if (e.getUcfid() != id) {    
+                return true;
+            }
+            }
+
+        return false;
+    }
     public void facultyAdd(Faculty tempFaculty) {
         list.add(tempFaculty);
 
