@@ -4,8 +4,13 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         int x = 0, INPUTMAX = 6;
+        String path;
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Knight> list = new ArrayList<Knight>();// Array list adds objects to it infinitely no need to
+        List list = new List();
+        System.out.println("Enter the absolute path of the file: ");
+        path = scanner.nextLine();
+        //need to check if the file that has lectures
+        
         while (x != 7) {
             int count = 0;// goes through input array
             String garbagestr;
@@ -24,27 +29,32 @@ public class Main {
             //There needs to be exception handling the entry of the wrong numbers 
             switch (x) {
                 case 1:
-                    Knight tempFuckalty = new Faculty();
+                    Faculty tempFukalty = new Faculty();
                     //there needs to be exception handling for the input of incorrect info
                     System.out.print("Enter UCF id:");
                     userInputStr[count] = scanner.nextLine();
                     count++;
+
                     // needs to check if id already exists
-                    System.out.print("Enter name:");
+                    System.out.print("Enter name: ");
                     userInputStr[count] = scanner.nextLine();
                     count++;
-                    System.out.print("Enter rank");
+                    System.out.print("Enter rank: ");
                     userInputStr[count] = scanner.nextLine();
                     count++;
-                    System.out.print("Enter office location:");
+                    System.out.print("Enter office location: ");
                     userInputStr[count] = scanner.nextLine();
                     count++;
-                    System.out.print("Enter how many lectures");
+                    System.out.print("Enter how many lectures: ");
                     userInputStr[count] = scanner.nextLine();
                     count++;
-                    System.out.print("Enter the crns of the lectures to assign to this faculty");
+                    System.out.print("Enter the crns of the lectures to assign to this faculty: ");
                     //Crns are seperated by spaces from user
                     userInputStr[count] = scanner.nextLine();
+                    tempFukalty.add(userInputStr,count);
+                    list.facultyAdd(tempFukalty);
+                    
+
                     
 
 
@@ -143,7 +153,7 @@ class Student extends Knight {
 
 }
 
-class TA extends Student {
+class TeachingAssistant extends Student {
     // TA specific info:
     // List of labs supervised
     // Advisor
@@ -164,8 +174,8 @@ class Faculty extends Knight {
         int count = 0;
         switch (length) {
             case 5:
-                count++;
                 setUcfid(Integer.parseInt(bonk[count]));
+                count++;
                 setName(bonk[count]);
                 count++;
                 setRank(bonk[count]);
@@ -215,4 +225,30 @@ class Faculty extends Knight {
         this.lectureArr = lectureArr;
     }
     
+}
+class List {
+    private static ArrayList<Knight> list = new ArrayList<Knight>();// Array list adds objects to it infinitely no need to
+    
+    public void facultyAdd(Faculty tempFaculty) {
+        list.add(tempFaculty);
+
+    }
+    
+    public void studentAdd(Student tempStudent) {
+        list.add(tempStudent);
+
+    }
+    public void teachingassistantAdd(TeachingAssistant tempTA) {
+        list.add(tempTA);
+
+    }
+
+    public ArrayList<Knight> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<Knight> list) {
+        this.list = list;
+    }
+
 }
