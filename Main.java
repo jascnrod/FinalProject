@@ -4,6 +4,7 @@ import java.util.Scanner;
 // what up foolz
 //uh oh stinky
 
+// jasdjfjjdsfjajasdfj
 public class Main {
     public static void main(String[] args) {
         int x = 0, INPUTMAX = 6;
