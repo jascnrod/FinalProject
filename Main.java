@@ -23,11 +23,12 @@ public class Main {
             //There needs to be exception handling the entry of the wrong numbers 
             switch (x) {
                 case 1:
+                    //there needs to be exception handling for the input of incorrect info
                     System.out.print("Enter UCF id:");
                     userInputStr[count] = scanner.nextLine();
                     count++;
                     // needs to check if id already exists
-                    System.out.print("Enter rank:");
+                    System.out.print("Enter name:");
                     userInputStr[count] = scanner.nextLine();
                     count++;
                     System.out.print("Enter rank");
@@ -40,6 +41,7 @@ public class Main {
                     userInputStr[count] = scanner.nextLine();
                     count++;
                     System.out.print("Enter the crns of the lectures to assign to this faculty");
+                    //Crns are seperated by spaces from user
                     userInputStr[count] = scanner.nextLine();
 
                     //   If a lecture has labs, ask to enter the UCF id of the TA for each lab (a TA
@@ -54,14 +56,48 @@ public class Main {
                     System.out.print("Enter UCF id:");
                     userInputStr[count] = scanner.nextLine();
                     count++;
+                    System.out.print("Enter name:");
+                    userInputStr[count] = scanner.nextLine();
+                    count++;
+                    System.out.print("Enter the crns of the lectures to assign to this faculty");
+                    // Crns are seperated by spaces from user
+                    userInputStr[count] = scanner.nextLine();
+                    // if a lecture requires a lab, randomly pick a lab for the student (no caps on
+                    // how many students to enroll in a lab) (Use the built in Java random
+                    // generation of a number)
                     break;
+
                 case 3:
+                    count = 0;// goes through input array
+                    userInputStr = new String[INPUTMAX];
+                    System.out.print("Enter UCF id:");
+                    userInputStr[count] = scanner.nextLine();
+                    count++;
+                    // Then Print the UCF id, name and the crns of the lectures taught by the
+                    // faculty (No need to display anything else).
+
                     break;
                 case 4:
+                    count = 0;// goes through input array
+                    userInputStr = new String[INPUTMAX];
+                    System.out.print("Enter UCF id:");
+                    userInputStr[count] = scanner.nextLine();
+                    count++;
+                    // Then Print the UCF id, name and the crns of the lectures taught by the
+                    // faculty (No need to display anything else).
                     break;
                 case 5:
+                    count = 0;// goes through input array
+                    userInputStr = new String[INPUTMAX];
+                    System.out.print("Enter UCF id:");
+                    userInputStr[count] = scanner.nextLine();
+                    count++;
+                    // Then Print the UCF id, name and the crns of the lectures taught by the
+                    // faculty (No need to display anything else).
                     break;
                 case 6:
+                    // Deleting a lecture requires deleting its labs as well and updating any
+                    // faculty/student record who is teaching/taking that lecture
                     break;
                 case 7:
                     break;
