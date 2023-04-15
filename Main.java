@@ -15,6 +15,9 @@ public class Main {
             "7: Exit Program");
             System.out.println("Type the number for what you want to do.");
             x = scanner.nextInt();
+            /*
+             * There needs to be exception handiling the entry of the wrong numbers
+             */
             switch (x) {
                 case 1:
                 break;
@@ -39,7 +42,7 @@ public class Main {
 }
 
 //this is the top dog, everything will inherit from this. the Array list will be initialized as a Identity
-class Knight {
+abstract class Knight {
     private int ucfid = 0;
     private String name;
 
