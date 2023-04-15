@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 //go into the main plz
+//what a bitch
 public class Main {
     public static void main(String[] args) {
         int x = 0, INPUTMAX = 6;
