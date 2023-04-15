@@ -19,7 +19,7 @@ public class Main {
             /*
              * There needs to be exception handiling the entry of the wrong numbers
              */
-            ArrayList<Knight> list = new ArrayList<Knight>();
+            ArrayList<Knight> list = new ArrayList<Knight>();//Array list adds objects to it infinitely no need to specify length
             switch (x) {
                 case 1:
 
