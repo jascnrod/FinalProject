@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -18,8 +19,10 @@ public class Main {
             /*
              * There needs to be exception handiling the entry of the wrong numbers
              */
+            ArrayList<Knight> list = new ArrayList<Knight>();
             switch (x) {
                 case 1:
+
                 break;
                 case 2:
                 break;
@@ -83,6 +86,8 @@ class Faculty extends Knight {
 //Faculty specific:
 //Rank
 //List of lectures taught
+private String rank;
+private String [] lectureArr;
 
     
 }
