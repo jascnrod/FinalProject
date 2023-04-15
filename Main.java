@@ -278,5 +278,4 @@ class List {
     public void setList(ArrayList<Knight> list) {
         this.list = list;
     }
-
 }
