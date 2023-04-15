@@ -1,8 +1,9 @@
+/* COP3330 Final Project
+ * Maria Tran, Gabriel Roca, Jason Rodriguez
+ */
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//go into the main plz
-//test test
 public class Main {
     public static void main(String[] args) {
         int x = 0, INPUTMAX = 6;
