@@ -1,5 +1,5 @@
-/*COP3330 Final Project
- Maria Tran, Gabriel Roca, Jason Rodriguez
+/* COP3330 Final Project
+ * Maria Tran, Gabriel Roca, Jason Rodriguez
  */
 import java.util.ArrayList;
 import java.util.Scanner;
