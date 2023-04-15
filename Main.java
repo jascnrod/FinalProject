@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 // what up foolz
+//uh oh stinky
 
 public class Main {
     public static void main(String[] args) {
