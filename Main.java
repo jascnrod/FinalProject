@@ -1,11 +1,9 @@
+/* COP3330 Final Project
+ * Maria Tran, Gabriel Roca, Jason Rodriguez
+ */
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// what up foolz
-//uh oh stinky
-//hellos
-
-// jasdjfjjdsfjajasdfj
 public class Main {
     public static void main(String[] args) {
         int x = 0, INPUTMAX = 6;
@@ -280,5 +278,4 @@ class List {
     public void setList(ArrayList<Knight> list) {
         this.list = list;
     }
-
 }
