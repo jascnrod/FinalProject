@@ -63,10 +63,14 @@ public class Main {
                         System.out.print("Enter the crns of the lectures to assign to this faculty: ");
                         // Crns are seperated by spaces from user
                         userInputStr[count] = scanner.nextLine();
+                        // keeps a copy of the the crns
                         String[] lecturesSplit = (userInputStr[count].split(" "));
+                        // the string comes back with null in place of the lecture that is already
+                        // assigned
                         String[] availiableLectures = list.checkLecture(userInputStr[count].split(" "));
                         // maybe turn this into a exception catch
                         for (int j = 0; j < lecturesSplit.length; j++) {
+                            // if these two are different than we gotta get rid of the taken lecture
                             if (!(lecturesSplit[j].equals(availiableLectures[j]))) {
                                 userInputStr[count] = null;
                                 for (int i = 0; i < lecturesSplit.length; i++) {
@@ -74,7 +78,7 @@ public class Main {
                                         System.out.println(
                                                 "lecture with crn " + lecturesSplit[i] + " is already taught");
                                 }
-
+                                // Outcome of the for loop is a new input with unique lectures or no lectures
                                 String temp = null;
                                 for (int i = 0; i < lecturesSplit.length; i++) {
                                     temp = null;
@@ -89,9 +93,10 @@ public class Main {
                                     break;
                             }
                         }
+                        // if they were alltaken then we restart the menu
                         if (userInputStr[count] == null)
-                                break;
-                        
+                            break;
+
                         // checks crns for a lab
                         if ((new Reader()).labCheck(userInputStr[count].split(" "), path)) {
                             // tempcrn has the lecture with a 0 as the ones with labs
@@ -156,9 +161,8 @@ public class Main {
                                 }
                             }
 
-                        }
-                        else {
-                            String [] temp = userInputStr[count].split(" ");
+                        } else {
+                            String[] temp = userInputStr[count].split(" ");
                             for (int i = 0; i < temp.length; i++) {
                                 (new Reader()).printClass(temp[i], path);
                                 System.out.print(" Added!\n");
@@ -173,9 +177,9 @@ public class Main {
                         userInputStr[count] = scanner.nextLine();
                         count++;
                         System.out.print("Enter the crns of the lectures to assign to this faculty: ");
-                        // Crns are seperated by spaces from user
                         // need to check if crn is assigned, if assigned change num of lectures
                         userInputStr[count] = scanner.nextLine();
+
                         tempFukalty.add(userInputStr, count);
                         list.facultyAdd(tempFukalty);
 
@@ -420,26 +424,26 @@ class List {
         }
         return false;
     }
-    
-    public String[] checkLecture ( String[] bonk) {
+
+    public String[] checkLecture(String[] bonk) {
 
         for (Knight e : list) {
-            int numlect = ((Faculty)e).getNumLectures();
+            int numlect = ((Faculty) e).getNumLectures();
             if (numlect != 0) {
-                String checklect[] = ((Faculty)e).getLectureArr();
-                //going through the facult's 
-                for (int i=0;i<numlect;i++) {
-                    for (int j = 0; j< bonk.length; j++){
+                String checklect[] = ((Faculty) e).getLectureArr();
+                // going through the facult's
+                for (int i = 0; i < numlect; i++) {
+                    for (int j = 0; j < bonk.length; j++) {
 
                         if (checklect[i].equals(bonk[j]))
-                        bonk[j] = null;
+                            bonk[j] = null;
 
                     }
                 }
             }
         }
 
-      return bonk;  
+        return bonk;
     }
 
     public void facultyAdd(Faculty tempFaculty) {
