@@ -1,9 +1,12 @@
+
 /* COP3330 Final Project
  * Maria Tran, Gabriel Roca, Jason Rodriguez
  */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Main {
@@ -14,36 +17,37 @@ public class Main {
         List list = new List();
         System.out.println("Enter the absolute path of the file: ");
         path = scanner.nextLine();
-        //need to check if the file that has lectures
-        
+        // need to check if the file that has lectures
+
         while (x != 7) {
-            int count = 0,count2=0;;// goes through input array
+            int count = 0, count2 = 0;
+            ;// goes through input array
             Boolean check = true;
             String garbagestr;
-            String[] userInputStr = new String[INPUTMAX],userInputStr2 = new String[INPUTMAX];
+            String[] userInputStr = new String[INPUTMAX], userInputStr2 = new String[INPUTMAX];
             System.out.println(
-                "1: Add a new faculty to the schedule.\n" +
-                "2: Enroll a student to a lecture (and to of of its labs if applicable)\n" +
-                "3: Print the Schedule of a faculty.\n" +
-                "4: Print the schedule of an TA.\n" +
-                "5: Print the schedule of a student.\n" +
-                "6: Delete a scheduled lecture\n" +
-                "7: Exit Program");
-                System.out.println("Type the number for what you want to do.");
-                x = scanner.nextInt();
-                garbagestr = scanner.nextLine();
-            //There needs to be exception handling the entry of the wrong numbers 
+                    "1: Add a new faculty to the schedule.\n" +
+                            "2: Enroll a student to a lecture (and to of of its labs if applicable)\n" +
+                            "3: Print the Schedule of a faculty.\n" +
+                            "4: Print the schedule of an TA.\n" +
+                            "5: Print the schedule of a student.\n" +
+                            "6: Delete a scheduled lecture\n" +
+                            "7: Exit Program");
+            System.out.println("Type the number for what you want to do.");
+            x = scanner.nextInt();
+            garbagestr = scanner.nextLine();
+            // There needs to be exception handling the entry of the wrong numbers
             switch (x) {
                 case 1:
                     Faculty tempFukalty = new Faculty();
                     TeachingAssistant tempTA = new TeachingAssistant();
-                    //there needs to be exception handling for the input of incorrect info
+                    // there needs to be exception handling for the input of incorrect info
                     System.out.print("Enter UCF id:");
                     userInputStr[count] = scanner.nextLine();
                     check = list.checkId(Integer.parseInt(userInputStr[count]));
                     count++;
-                    if (check){
-                        // needs to check if id already exists
+                    if (!check) {
+                        // this is for if the ucf id is new
                         System.out.print("Enter name: ");
                         userInputStr[count] = scanner.nextLine();
                         count++;
@@ -57,71 +61,131 @@ public class Main {
                         userInputStr[count] = scanner.nextLine();
                         count++;
                         System.out.print("Enter the crns of the lectures to assign to this faculty: ");
-                        //Crns are seperated by spaces from user
+                        // Crns are seperated by spaces from user
                         userInputStr[count] = scanner.nextLine();
-                        if ((new Reader()).labCheck(userInputStr[count].split(" "),path)) {
-                            String[] tempCrn = (new Reader()).crnReturn(userInputStr[count].split(" "),path);
-                            String[] noLabCrn = userInputStr[count].split(" ");
-                            //add the lectures with no labs first
-                            for(int i= 0; i < noLabCrn.length;i++) {
-                                if (Integer.parseInt(tempCrn[i]) == 0) {
-                                    //if there is no lab
-                                    (new Reader()).printClass(noLabCrn[i], path);
+                        String[] lecturesSplit = (userInputStr[count].split(" "));
+                        String[] availiableLectures = list.checkLecture(userInputStr[count].split(" "));
+                        // maybe turn this into a exception catch
+                        for (int j = 0; j < lecturesSplit.length; j++) {
+                            if (!(lecturesSplit[j].equals(availiableLectures[j]))) {
+                                userInputStr[count] = null;
+                                for (int i = 0; i < lecturesSplit.length; i++) {
+                                    if (!lecturesSplit[i].equals(availiableLectures[i]))
+                                        System.out.println(
+                                                "lecture with crn " + lecturesSplit[i] + " is already taught");
+                                }
+
+                                String temp = null;
+                                for (int i = 0; i < lecturesSplit.length; i++) {
+                                    temp = null;
+                                    if (lecturesSplit[i].equals(availiableLectures[i]))
+                                        temp = lecturesSplit[i];
+                                    if (temp != null && userInputStr[count] != null)
+                                        userInputStr[count] = userInputStr[count].concat(" " + temp);
+                                    else if (temp != null)
+                                        userInputStr[count] = temp;
+                                }
+                                if (userInputStr[count] == null)
+                                    break;
+                            }
+                        }
+                        if (userInputStr[count] == null)
+                                break;
+                        
+                        // checks crns for a lab
+                        if ((new Reader()).labCheck(userInputStr[count].split(" "), path)) {
+                            // tempcrn has the lecture with a 0 as the ones with labs
+                            String[] tempCrn = (new Reader()).crnReturn(userInputStr[count].split(" "), path);
+                            // nolabCrn has the same format as tempcrn but no zeros
+                            String[] nolabCrn = userInputStr[count].split(" ");
+                            // add the lectures with no labs first
+                            for (int i = 0; i < nolabCrn.length; i++) {
+                                if (Integer.parseInt(tempCrn[i]) != 0) {
+                                    (new Reader()).printClass(tempCrn[i], path);
                                     System.out.print(" Added!\n");
                                 }
-                                else {
-                                    String[] labs = (new Reader()).returnLab(noLabCrn[i], path);
-                                    (new Reader()).printClass(noLabCrn[i], path);
+                            }
+                            // add lectures with a lab
+                            for (int i = 0; i < nolabCrn.length; i++) {
+                                // finds the crn of the lecture with labs
+                                if (Integer.parseInt(tempCrn[i]) == 0) {
+                                    // returns actuall crns of the lab along with room
+                                    String[] labs = (new Reader()).returnLab(nolabCrn[i], path);
+                                    // prints out the lecture details
+                                    (new Reader()).printClass(nolabCrn[i], path);
                                     System.out.println(" has these labs: ");
-                                    for(int j = 0;j < labs.length;j++) {System.out.println(labs[j]);}
-                                    for(int k = 0;k <labs.length;k++){
-                                        String[] templabcrn = labs[k].split(",");
-                                        System.out.println("Enter TA's id for " + templabcrn[0] + ":");
-                                        //check exception they might have inputed to many numbers or just the wrong thing
-                                        userInputStr[count2] = scanner.nextLine();
-                                        count++;
-                                        //search for student/TA
-        //this is where you left off                                
+                                    // prints all labs
+                                    for (int j = 0; j < labs.length; j++) {
+                                        System.out.println(labs[j]);
+                                    }
+                                    // adds a TA to the labs
+                                    for (int k = 0; k < labs.length; k++) {
+                                        userInputStr2 = new String[INPUTMAX];
+                                        count2 = 0;
+                                        String[] templabCrn = labs[k].split(",");
+                                        System.out.println("Enter TA's id for " + templabCrn[0] + ":");
+                                        // check exception they might have inputed to many numbers or just the wrong
+                                        // thing
+                                        userInputStr2[count2] = scanner.nextLine();
+
+                                        // search for student/TA
                                         check = list.checkId(Integer.parseInt(userInputStr2[count2]));
+                                        count2++;
+
                                         if (!check) {
-                                            System.out.print("Enter name: ");
+                                            // if the student is not found then we input a new TA with only the info of
+                                            // a TA. which
+                                            // doesn't really make sense to me because if a TA is a Student shouldnt we
+                                            // have to input
+                                            // Student specific info. The example code doesn't do it so i won't.
+                                            System.out.print("Name of TA: ");
                                             userInputStr2[count2] = scanner.nextLine();
                                             count2++;
-                                            System.out.println("Enter the crns of the lectures the student to enroll them");
+                                            System.out.println("TA's supervisor's name: ");
                                             userInputStr2[count2] = scanner.nextLine();
                                             count2++;
+                                            System.out.println("Degree Seeking: ");
+                                            userInputStr2[count2] = scanner.nextLine();
+                                            count2++;
+                                            userInputStr2[count2] = templabCrn[0];
+                                            tempTA.addTA(userInputStr2);
+                                            list.teachingassistantAdd(tempTA);
+
                                         }
                                     }
                                 }
                             }
-                                
+
+                        }
+                        else {
+                            String [] temp = userInputStr[count].split(" ");
+                            for (int i = 0; i < temp.length; i++) {
+                                (new Reader()).printClass(temp[i], path);
+                                System.out.print(" Added!\n");
+                            }
+
                         }
 
-                        tempFukalty.add(userInputStr,count);
+                        tempFukalty.add(userInputStr, count);
                         list.facultyAdd(tempFukalty);
-                    }
-                    else {
+                    } else {
                         System.out.print("Enter how many lectures: ");
                         userInputStr[count] = scanner.nextLine();
                         count++;
                         System.out.print("Enter the crns of the lectures to assign to this faculty: ");
-                        //Crns are seperated by spaces from user
-                        //need to check if crn is assigned, if assigned change num of lectures
+                        // Crns are seperated by spaces from user
+                        // need to check if crn is assigned, if assigned change num of lectures
                         userInputStr[count] = scanner.nextLine();
-                        tempFukalty.add(userInputStr,count);
+                        tempFukalty.add(userInputStr, count);
                         list.facultyAdd(tempFukalty);
 
                     }
-                    
 
-                    
+                    // If a lecture has labs, ask to enter the UCF id of the TA for each lab (a TA
+                    // may do more than one Lab). This may require entering a new TA to the system,
+                    // and in this case, you need to ask for the remaining information of the TA.
+                    // Keep in mind that a TA can be a student.
 
-
-                    //   If a lecture has labs, ask to enter the UCF id of the TA for each lab (a TA
-                    //   may do more than one Lab). This may require entering a new TA to the system,
-                    //   and in this case, you need to ask for the remaining information of the TA.
-                    //   Keep in mind that a TA can be a student.
-                    
                     break;
                 case 2:
                     count = 0;// goes through input array
@@ -211,39 +275,51 @@ class Student extends Knight {
     // possible list of lec/lab attended
     private String[] lecLabAttended;
     private String type;
+
     public String[] getLecLabAttended() {
         return lecLabAttended;
     }
+
     public void setLecLabAttended(String[] lecLabAttended) {
         this.lecLabAttended = lecLabAttended;
     }
+
     public String getType() {
         return type;
     }
+
     public void setType(String type) {
         this.type = type;
     }
-    
-
-  
-    
 
 }
 
 class TeachingAssistant extends Student {
-    // TA specific info:
-    // List of labs supervised
-    // Advisor
-    // Expected degree
-    private String[] labs;
-    private String advisor,degree;
+    // might need to write a method to append labs
+    private String labs;
+    private String advisor, degree;
+    // might have to code in something for the input from a student to a TA
 
-    public String[] getLabs() {
+    public void addTA(String[] bonk) {
+        int count = 0;
+        setUcfid(Integer.parseInt(bonk[count]));
+        count++;
+        setName(bonk[count]);
+        count++;
+        setAdvisor(bonk[count]);
+        count++;
+        setDegree(bonk[count]);
+        count++;
+        setLabs(bonk[count]);
+
+    }
+
+    public String getLabs() {
         return labs;
     }
 
-    public void setLabs(String[] labs) {
-        this.labs = labs;
+    public void setLabs(String bonk) {
+        this.labs = bonk;
     }
 
     public String getAdvisor() {
@@ -262,22 +338,17 @@ class TeachingAssistant extends Student {
         this.degree = degree;
     }
 
-    public void addTA(String[]bonk) {
-      
-     
-    }
-
 }
 
 class Faculty extends Knight {
     // Faculty specific:
     // Rank
     // List of lectures taught
-    private String rank,office;
+    private String rank, office;
     private String[] lectureArr;
     private int numLectures;
 
-    public void add (String[] bonk , int length) {
+    public void add(String[] bonk, int length) {
         int count = 0;
         switch (length) {
             case 5:
@@ -294,10 +365,9 @@ class Faculty extends Knight {
                 setLectureArr((bonk[count]).split(" "));
                 break;
             case 2:
-                //if the faculty already exists
+                // if the faculty already exists
                 break;
-            
-        
+
         }
 
     }
@@ -322,40 +392,66 @@ class Faculty extends Knight {
     public String getRank() {
         return rank;
     }
+
     public void setRank(String rank) {
         this.rank = rank;
     }
+
     public String[] getLectureArr() {
         return lectureArr;
     }
+
     public void setLectureArr(String[] lectureArr) {
         this.lectureArr = lectureArr;
     }
-    
+
 }
 
 class List {
-    private static ArrayList<Knight> list = new ArrayList<Knight>();// Array list adds objects to it infinitely no need to update length
-    
-    public boolean checkId (int id) {
+    private static ArrayList<Knight> list = new ArrayList<Knight>();// Array list adds objects to it infinitely no need
+                                                                    // to update length
+
+    public boolean checkId(int id) {
 
         for (Knight e : list) {
-            if (e.getUcfid() != id) {    
+            if (e.getUcfid() == id) {
                 return true;
             }
         }
-
         return false;
     }
+    
+    public String[] checkLecture ( String[] bonk) {
+
+        for (Knight e : list) {
+            int numlect = ((Faculty)e).getNumLectures();
+            if (numlect != 0) {
+                String checklect[] = ((Faculty)e).getLectureArr();
+                //going through the facult's 
+                for (int i=0;i<numlect;i++) {
+                    for (int j = 0; j< bonk.length; j++){
+
+                        if (checklect[i].equals(bonk[j]))
+                        bonk[j] = null;
+
+                    }
+                }
+            }
+        }
+
+      return bonk;  
+    }
+
     public void facultyAdd(Faculty tempFaculty) {
         list.add(tempFaculty);
 
     }
-    
+
     public void studentAdd(Student tempStudent) {
         list.add(tempStudent);
 
     }
+
     public void teachingassistantAdd(TeachingAssistant tempTA) {
         list.add(tempTA);
 
@@ -371,63 +467,66 @@ class List {
 }
 
 class Reader {
-    private int counter = 0;
     private Scanner scanner = null;
 
     public boolean labCheck(String user[], String path) {
-      
-                try {
-                    scanner = new Scanner(new File(path));
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                String line;
-                String[] arr = null;
-                for (int i = 0; i < user.length; i++) {
-                    while (scanner.hasNextLine()) {
-                        line = scanner.nextLine();
-                        // skips the commma and adds the string to arr
-                        arr = line.split(",");
-                        // looks for the word online in the designated spot
-                        if (arr.length > 5 && arr[6].equalsIgnoreCase("yes")) {
-                            if (arr[0] == user[i]) {
-                                    return true;
-                                }
-                            }
-                            counter++;
-                        }
-                    }
-                scanner.close();
-        return false;
-    }
-    public String[] crnReturn(String user[], String path) {
-        try {
-            scanner = new Scanner(new File(path));
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+
         String line;
-        String[] arr = null,crn = user;
-    
-        counter = 0;
+        String[] arr = null;
         for (int i = 0; i < user.length; i++) {
+            try {
+                scanner = new Scanner(new File(path));
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             while (scanner.hasNextLine()) {
                 line = scanner.nextLine();
                 // skips the commma and adds the string to arr
                 arr = line.split(",");
+                // looks for lectures with labs and then checks if they are tied to the crn
+                // given
                 if (arr.length > 5 && arr[6].equalsIgnoreCase("yes")) {
-                    if (arr[0] != user[i])
-                    crn[i] = "0";
+                    if (arr[0].equals(user[i])) {
+                        return true;
                     }
                 }
+
             }
+        }
         scanner.close();
+        return false;
+    }
+
+    public String[] crnReturn(String user[], String path) {
+        String line;
+        String[] arr = null, crn = user;
+
+        for (int i = 0; i < user.length; i++) {
+            try {
+                scanner = new Scanner(new File(path));
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            while (scanner.hasNextLine()) {
+                line = scanner.nextLine();
+                // skips the commma and adds the string to arr
+                arr = line.split(",");
+                // the crns with a lab are getting sent back with zeroes in the spot of the crn
+                if (arr.length > 5 && arr[6].equalsIgnoreCase("yes")) {
+                    if (arr[0].equals(user[i]))
+                        crn[i] = "0";
+                }
+            }
+        }
+        scanner.close();
+
         return crn;
     }
+
     public void printClass(String crn, String path) {
-  
+
         String line;
         String[] arr = null;
         Scanner scanner = null;
@@ -440,12 +539,11 @@ class Reader {
         while (scanner.hasNextLine()) {
             line = scanner.nextLine();
             arr = line.split(",");
-            //looks for the room in the designated spot
+            // looks for the room in the designated spot
             if (arr.length > 2 && arr[0].equalsIgnoreCase(crn)) {
-                //prints out the the class
+                // prints out the the class
                 System.out.print("[" + arr[0] + "/" + arr[1] + "/" + arr[2] + "]");
-            } 
-            else if (arr.length<3 && arr[0].equalsIgnoreCase(crn)) {
+            } else if (arr.length < 3 && arr[0].equalsIgnoreCase(crn)) {
                 System.out.println(line);
 
             }
@@ -453,9 +551,11 @@ class Reader {
         }
 
     }
+
     public String[] returnLab(String crn, String path) {
         String line;
-        String[] arr = null,lab = null;
+        String[] arr = null, lab = null;
+        int counter = 0;
         Scanner scanner = null;
         try {
             scanner = new Scanner(new File(path));
@@ -466,27 +566,57 @@ class Reader {
         while (scanner.hasNextLine()) {
             line = scanner.nextLine();
             arr = line.split(",");
-            
-                while (scanner.hasNextLine()) {
-                    line = scanner.nextLine();
-                    // skips the commma and adds the string to arr
-                    arr = line.split(",");
-                    if (arr.length > 5 && arr[6].equalsIgnoreCase("yes")) {
-                        if (arr[0]==crn) {
+
+            while (scanner.hasNextLine()) {
+                if (arr.length > 5 && arr[6].equalsIgnoreCase("yes")) {
+                    if (arr[0].equals(crn)) {
+                        line = scanner.nextLine();
+                        arr = line.split(",");
+                        while (arr.length < 3) {
+                            counter++;
                             line = scanner.nextLine();
                             arr = line.split(",");
-                            while (arr.length < 2) {
-                                lab = line.split(",");
-                                line = scanner.nextLine();
-                                arr = line.split(",");
-                            }
-                        }
-                        
                         }
                     }
-            
-            scanner.close();
+                }
+                line = scanner.nextLine();
+                arr = line.split(",");
+            }
+
         }
+        try {
+            scanner = new Scanner(new File(path));
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        lab = new String[counter];
+        counter = 0;
+        while (scanner.hasNextLine()) {
+            line = scanner.nextLine();
+            arr = line.split(",");
+
+            while (scanner.hasNextLine()) {
+                if (arr.length > 5 && arr[6].equalsIgnoreCase("yes")) {
+                    if (arr[0].equals(crn)) {
+                        line = scanner.nextLine();
+                        arr = line.split(",");
+                        while (arr.length < 3) {
+                            lab[counter] = line;
+                            counter++;
+                            line = scanner.nextLine();
+                            arr = line.split(",");
+                        }
+                    }
+                }
+                line = scanner.nextLine();
+                arr = line.split(",");
+            }
+
+        }
+
+        scanner.close();
+
         return lab;
     }
 }
