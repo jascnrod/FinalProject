@@ -824,7 +824,7 @@ class List {
     private static ArrayList<Knight> list = new ArrayList<Knight>();// Array list adds objects to it infinitely no need
     // to update length
     public Knight returnStudent(int id) {
-4        TeachingAssistant T =null;
+        TeachingAssistant T =null;
         for (Knight e : list) {
             if (e.getUcfid() == id) {
                 id =list.indexOf(e);
