@@ -179,15 +179,16 @@ public class Main {
                                             }
                                             else {
                                                 ((TeachingAssistant) tempTA).addLabs(templabCrn[0]);
-                                                list.replaceStudent(Integer.parseInt(userInputStr2[count2]),((Student)tempTA));
+                                                list.replaceStudent(Integer.parseInt(userInputStr2[0]),((Student)tempTA));
                                                 
                                             }
                                         }
                                     }
                                 }
-
+                                (new Reader()).printClass(nolabCrn[i], path);
+                                System.out.print(" Added!\n");
                             }
-
+                            
                         }
                         else {
                             String [] temp = userInputStr[count].split(" ");
@@ -329,6 +330,8 @@ public class Main {
                                         }
                                     }
                                 }
+                                (new Reader()).printClass(nolabCrn[i], path);
+                                System.out.print(" Added!\n");
                             }
     
                         }
@@ -418,9 +421,35 @@ public class Main {
                                   }
                               }
                           }
+                          tempStudent.addStudent(userInputStr);
+                          list.studentAdd(tempStudent);
                       }
-                      tempStudent.addStudent(userInputStr);
-                      list.studentAdd(tempStudent);
+                      else {
+                         //this is if there is no lab contained in the crns inputed
+                         //needs to be edited, this only works for if there is one crnn i think 
+                         //not smart code
+                         String [] temp = userInputStr[count].split(" ");
+                      
+
+                         for (int i=0; i<temp.length;i++)
+                         {
+                             if (Integer.parseInt(temp[i]) == 0){
+                                //idk need to add check if crn is on the .txt
+                                System.out.println("fuck this project");
+                            }
+                            else if (temp[i] != null){
+                                 userInputStr[count] = userInputStr[count].concat(" " +temp[i]); 
+                                 (new Reader()).printClass(temp[i], path);
+                                 System.out.println("student enrolled!");
+
+                             }
+
+                         }
+
+                         tempStudent.addStudent(userInputStr);
+                         list.studentAdd(tempStudent);
+                        
+                      }
 
                     // if a lecture requires a lab, randomly pick a lab for the student (no caps on
                     // how many students to enroll in a lab) (Use the built in Java random
@@ -854,6 +883,7 @@ class List {
 
 class Reader {
     private Scanner scanner = null;
+    //need to add a check for if a crn doesnt exist
 
     public boolean labCheck(String user[], String path) {
 
