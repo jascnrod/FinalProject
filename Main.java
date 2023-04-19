@@ -2,8 +2,13 @@
 /* COP3330 Final Project
  * Maria Tran, Gabriel Roca, Jason Rodriguez
  */
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -550,20 +555,53 @@ public class Main {
                     userInputStr[count] = scanner.nextLine();
                     Faculty tempFaculty = new Faculty();
                     tempFaculty = list.returnFaculty(Integer.parseInt(userInputStr[count]));
+                    if(tempFaculty != null)
                     tempFaculty.printInfo(tempFaculty, path);
-
+                    else
+                    System.out.println("Faculty not found");
                     // Then Print the UCF id, name and the crns of the lectures taught by the
                     // faculty (No need to display anything else).
 
                     break;
                 case 4:
-                    count = 0;// goes through input array
-                    userInputStr = new String[INPUTMAX];
-                    System.out.print("Enter UCF id:");
-                    userInputStr[count] = scanner.nextLine();
-                    count++;
-                    // Then Print the UCF id, name and the crns of the lectures taught by the
-                    // faculty (No need to display anything else).
+                count = 0;// goes through input array
+                userInputStr = new String[INPUTMAX];
+                System.out.print("Enter UCF id:");
+                userInputStr[count] = scanner.nextLine();
+                TeachingAssistant tempTA= new TeachingAssistant();
+                tempTA = (TeachingAssistant) (list.returnStudent(Integer.parseInt(userInputStr[count])));
+                if (tempTA.getLabs() != null)
+                {
+                    String[] lab = (tempTA.getLabs()).split(" ");
+                    for(int i = 0; i < lab.length; i++)
+                    {
+                        check = (new Reader()).doesCrnExist(lab[i], path);
+                        if(!check){
+                            lab[i] = null;
+                            count++;
+                        }
+                    }
+                    if(count==lab.length) {
+                        System.out.println("Sorry no TA found.");
+                    }
+                    else {
+                        System.out.println("Record Found: \n" + tempTA.getName());
+                        System.out.println("Assisting in lab/labs:");
+                        for(int i = 0; i < lab.length; i++)
+                        {
+                            check = (new Reader()).doesCrnExist(lab[i], path);
+                            if(!check){
+                                lab[i] = null;
+                                count++;
+                            }
+                        }
+                        for(int i = 0; i < lab.length; i++)
+                        {
+                            (new Reader()).printClass(lab[i], path);
+                        }
+
+                    }
+                }
                     break;
                 case 5:
                     count = 0;// goes through input array
@@ -584,6 +622,16 @@ public class Main {
                     // faculty (No need to display anything else).
                     break;
                 case 6:
+                userInputStr = new String[INPUTMAX];
+                count =0;
+                System.out.println("Enter the crn of the lecture to delete: ");
+                userInputStr[count] = scanner.nextLine();
+                    try {
+                        (new Reader()).deleteCrn(userInputStr[count], path);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     // Deleting a lecture requires deleting its labs as well and updating any
                     // faculty/student record who is teaching/taking that lecture
                     break;
@@ -761,10 +809,14 @@ class Faculty extends Knight {
         System.out.print(bonk.getName() + " is teaching the following lectures:");
         String Crn[] = (bonk.getLectureArr()).clone();
         boolean check = false;
+        int count = 0;
         for (int i = 0; i < bonk.numLectures; i++) {
             if (check = (new Reader()).labCheck(Crn, path)) {
                 break;
+            
             }
+            else 
+            count++;
 
         }
         if (check) {
@@ -786,7 +838,7 @@ class Faculty extends Knight {
                     }
                 }
             }
-        } else {
+        } else if (count != bonk.numLectures) {
             for (int i = 0; i < Crn.length; i++) {
                 (new Reader()).printNecessary(Crn[i], path);
             }
@@ -1019,7 +1071,7 @@ class Reader {
             line = scanner.nextLine();
             arr = line.split(",");
             // looks for the room in the designated spot
-            if (arr.length > 2 && arr[0].equalsIgnoreCase(crn)) {
+            if (arr[0].equalsIgnoreCase(crn)) {
                 check = true;
                 return check;
 
@@ -1173,5 +1225,48 @@ class Reader {
         scanner.close();
 
         return lab;
+    }
+  
+    public void deleteCrn(String crn, String path) throws IOException {
+        File inFile = new File(path);
+        File tempFile = new File(inFile.getAbsolutePath() + ".txt");
+
+        BufferedReader br = new BufferedReader(new FileReader(path));
+
+        PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+
+        String line = null;
+        String[] arr = null;
+        while ((line = br.readLine()) != null) {
+            arr = line.split(",");
+            // looks for no in the designated spot
+            if (!(arr.length > 1 && arr[0].equalsIgnoreCase(crn))) {
+                pw.println(line);
+                pw.flush();
+            } else if (arr.length > 5 && arr[6].equalsIgnoreCase("yes")) {
+
+                line = br.readLine();
+                arr = line.split(",");
+                while (arr.length < 3 && (line != null)) {
+
+                    line = br.readLine();
+                    if(line!=null)arr = line.split(",");
+                }
+                if (line == null)
+                    break;
+                pw.println(line);
+                pw.flush();
+
+            }
+        }
+        if (!inFile.delete()) {
+            System.out.println("Could not delete file");
+            return;
+        }
+
+        // Rename the new file to the filename the original file had.
+        if (!tempFile.renameTo(inFile))
+            System.out.println("Could not rename file");
+
     }
 }
