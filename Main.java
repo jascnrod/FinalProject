@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        int x = 0, INPUTMAX = 6;
+        int x = 0, INPUTMAX = 6, countdel = 0;
         String path;
         Scanner scanner = new Scanner(System.in);
         List list = new List();
@@ -184,16 +184,16 @@ public class Main {
                                                 userInputStr2[count2] = templabCrn[0];
                                                 ((TeachingAssistant) tempTA).addTA(userInputStr2);
                                                 // causing unnecessary poutpu
-                                                (new Reader()).printClass(nolabCrn[i], path);
-                                                System.out.print(" Added!\n");
+
                                             } else {
                                                 ((TeachingAssistant) tempTA).addLabs(templabCrn[0]);
                                                 // causing unnecessary poutpu
-                                                (new Reader()).printClass(nolabCrn[i], path);
-                                                System.out.print(" Added!\n");
+
                                             }
                                         }
                                     }
+                                    (new Reader()).printClass(nolabCrn[i], path);
+                                    System.out.print(" Added!\n");
                                 }
 
                             }
@@ -571,6 +571,10 @@ public class Main {
                     userInputStr[count] = scanner.nextLine();
                     TeachingAssistant tempTA = new TeachingAssistant();
                     tempTA = (TeachingAssistant) (list.returnStudent(Integer.parseInt(userInputStr[count])));
+                    if (tempTA == null) {
+                        System.out.println("Sorry no TA found.");
+                        break;
+                    }
                     if (tempTA.getLabs() != null) {
                         String[] lab = (tempTA.getLabs()).split(" ");
                         for (int i = 0; i < lab.length; i++) {
@@ -581,7 +585,7 @@ public class Main {
                             }
                         }
                         if (count == lab.length) {
-                            System.out.println("Sorry no TA found.");
+                            System.out.println("Sorry no TA with this id");
                         } else {
                             System.out.println("Record Found: \n" + tempTA.getName());
                             System.out.println("Assisting in lab/labs:");
@@ -606,10 +610,15 @@ public class Main {
                     userInputStr[count] = scanner.nextLine();
                     Student tempStudent2 = new Student();
                     tempStudent2 = (Student) (list.returnStudent(Integer.parseInt(userInputStr[count])));
-                    if (tempStudent2.getLeclabAttended() != null) {
-                        System.out.println("Record Found: ");
-                        System.out.println(tempStudent2.getName() + "\n Enrolled in the following lectures");
-                        tempStudent2.printInfo(tempStudent2, path);
+                    if (tempStudent2 != null) {
+                        if(tempStudent2.getLeclabAttended() != null){
+                            System.out.println("Record Found: ");
+                            System.out.println(tempStudent2.getName() + "\n Enrolled in the following lectures");
+                            tempStudent2.printInfo(tempStudent2, path);
+                        }   
+                        else
+                        System.out.println("Student not found");
+
                     } else {
                         System.out.println("Student not found");
                     }
@@ -618,11 +627,12 @@ public class Main {
                     // faculty (No need to display anything else).
                     break;
                 case 6:
-                //print out deleted class
+                    // print out deleted class
                     userInputStr = new String[INPUTMAX];
-                    count = 0;
+
                     System.out.println("Enter the crn of the lecture to delete: ");
-                    userInputStr[count] = scanner.nextLine();
+                    userInputStr[0] = scanner.nextLine();
+                    countdel++;
                     try {
                         (new Reader()).deleteCrn(userInputStr[count], path);
                     } catch (IOException e) {
@@ -633,10 +643,37 @@ public class Main {
                     // faculty/student record who is teaching/taking that lecture
                     break;
                 case 7:
-                    break;
+                    if (countdel != 0) {
 
+                        userInputStr = new String[INPUTMAX];
+                        System.out.println("You have made a deletion of at least one lecture. Would you like to" +
+                                "print the copy of lec.txt? Enter y/Y for Yes or n/N for No:");
+                        userInputStr[0] = scanner.nextLine();
+                        userInputStr[0] = userInputStr[0].toUpperCase();
+                        while (!userInputStr[0].equals("Y"))
+                            if (userInputStr[0].equals("Y")) {
+                                (new Reader()).printEverything(path);
+                                System.out.println("Bye!");
+                                break;
+                            } else if (userInputStr[0].equals("N")) {
+
+                                System.out.println("Bye!");
+                                break;
+                            } else {
+                                System.out.println("Is that a yes or no? Enter y/Y for Yes or n/N for No:");
+                                userInputStr[0] = scanner.nextLine();
+                                userInputStr[0] = userInputStr[0].toUpperCase();
+                            }
+
+                    }
+                    if (userInputStr[0].equals("Y")) {
+
+                        (new Reader()).printEverything(path);
+                        System.out.println("Bye!");
+                        break;
+
+                    }
             }
-
         }
         scanner.close();
     }
@@ -671,7 +708,7 @@ class Student extends TeachingAssistant {
     // possible list of lec/lab attended
     private String[] leclabAttended;
     private String type;
-
+//changing exporting matching test outoput wednesday 152
     // need to check if the crn exists.
     public void printInfo(Student bonk, String path) {
         String[] leclab = bonk.getLeclabAttended().clone();
@@ -806,12 +843,13 @@ class Faculty extends Knight {
         String Crn[] = (bonk.getLectureArr()).clone();
         boolean check = false;
         int count = 0;
-        
-        for ( int i =0; i < Crn.length;i++){
-            if(!(new Reader()).doesCrnExist(Crn[i],path))count++;
+
+        for (int i = 0; i < Crn.length; i++) {
+            if (!(new Reader()).doesCrnExist(Crn[i], path))
+                count++;
         }
-        if(count==Crn.length){
-            System.out.println("Factulty not found")
+        if (count == Crn.length) {
+            System.out.println("Factulty not found");
             return;
         }
         System.out.print(bonk.getName() + " is teaching the following lectures:");
@@ -835,8 +873,7 @@ class Faculty extends Knight {
                     }
                 }
             }
-        } 
-        else {
+        } else {
             for (int i = 0; i < Crn.length; i++) {
                 (new Reader()).printNecessary(Crn[i], path);
             }
@@ -1044,6 +1081,7 @@ class Reader {
                 arr = line.split(",");
                 // the crns with a lab are getting sent back with zeroes in the spot of the crn
                 if (arr.length > 5 && arr[6].equalsIgnoreCase("yes")) {
+
                     if (arr[0].equals(user[i]))
                         crn[i] = "0";
                 }
@@ -1266,5 +1304,23 @@ class Reader {
         if (!tempFile.renameTo(inFile))
             System.out.println("Could not rename file");
 
+    }
+
+    public void printEverything(String path) {
+        String line;
+        String[] arr = null;
+
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File(path));
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        while (scanner.hasNextLine()) {
+            line = scanner.nextLine();
+            System.out.println(line);
+
+        }
     }
 }
