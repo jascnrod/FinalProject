@@ -612,9 +612,8 @@ public class Main {
                     tempStudent2 = (Student) (list.returnStudent(Integer.parseInt(userInputStr[count])));
                     if (tempStudent2 != null) {
                         if(tempStudent2.getLeclabAttended() != null){
-                            System.out.println("Record Found: ");
-                            System.out.println(tempStudent2.getName() + "\n Enrolled in the following lectures");
                             tempStudent2.printInfo(tempStudent2, path);
+
                         }   
                         else
                         System.out.println("Student not found");
@@ -714,6 +713,8 @@ class Student extends TeachingAssistant {
         String[] leclab = bonk.getLeclabAttended().clone();
         // checking if any of the crns have labs tied to them.
         if ((new Reader()).labCheck(leclab, path)) {
+            System.out.println("Record Found: ");
+            System.out.println(bonk.getName() + "\n Enrolled in the following lectures");
             String[] nolab = leclab.clone();
             (new Reader()).crnReturn(nolab, path);// nolab now has zeros where labs go
             for (int i = 0; i < leclab.length; i++) {
@@ -729,11 +730,25 @@ class Student extends TeachingAssistant {
         }
         // runs with no labs. so only need to check if the crn exists
         else {
+            int counter =0;
             for (int i = 0; i < leclab.length; i++) {
                 if ((new Reader()).doesCrnExist(leclab[i], path)) {
-                    (new Reader()).printNecessary2(leclab[i], path);
-
+                    counter++;
                 }
+            }
+            if(counter != 0){
+                
+                System.out.println("Record Found: ");
+                System.out.println(bonk.getName() + "\n Enrolled in the following lectures");
+                for (int i = 0; i < leclab.length; i++) {
+                    if ((new Reader()).doesCrnExist(leclab[i], path)) {
+                        (new Reader()).printNecessary2(leclab[i], path);
+                    }
+                }
+            
+            }
+            else {
+                System.out.println("Student not found");
             }
         }
     }
@@ -1026,9 +1041,11 @@ class List {
         return list;
     }
 
-    public void setList(ArrayList<Knight> list) {
-        this.list = list;
+    public static void setList(ArrayList<Knight> list) {
+        List.list = list;
     }
+
+   
 }
 
 class Reader {
@@ -1266,35 +1283,36 @@ class Reader {
         File inFile = new File(path);
         File tempFile = new File(inFile.getAbsolutePath() + ".txt");
 
-        BufferedReader br = new BufferedReader(new FileReader(path));
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            try (PrintWriter pw = new PrintWriter(new FileWriter(tempFile))) {
+                String line = null;
+                String[] arr = null;
+                while ((line = br.readLine()) != null) {
+                    arr = line.split(",");
+                    // looks for no in the designated spot
+                    if (!(arr.length > 1 && arr[0].equalsIgnoreCase(crn))) {
+                        pw.println(line);
+                        pw.flush();
+                    } else if (arr.length > 5 && arr[6].equalsIgnoreCase("yes")) {
 
-        PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
-
-        String line = null;
-        String[] arr = null;
-        while ((line = br.readLine()) != null) {
-            arr = line.split(",");
-            // looks for no in the designated spot
-            if (!(arr.length > 1 && arr[0].equalsIgnoreCase(crn))) {
-                pw.println(line);
-                pw.flush();
-            } else if (arr.length > 5 && arr[6].equalsIgnoreCase("yes")) {
-
-                line = br.readLine();
-                arr = line.split(",");
-                while (arr.length < 3 && (line != null)) {
-
-                    line = br.readLine();
-                    if (line != null)
+                        line = br.readLine();
                         arr = line.split(",");
-                }
-                if (line == null)
-                    break;
-                pw.println(line);
-                pw.flush();
+                        while (arr.length < 3 && (line != null)) {
 
+                            line = br.readLine();
+                            if (line != null)
+                                arr = line.split(",");
+                        }
+                        if (line == null)
+                            break;
+                        pw.println(line);
+                        pw.flush();
+
+                    }
+                }
             }
         }
+
         if (!inFile.delete()) {
             System.out.println("Could not delete file");
             return;
@@ -1308,7 +1326,7 @@ class Reader {
 
     public void printEverything(String path) {
         String line;
-        String[] arr = null;
+        
 
         Scanner scanner = null;
         try {
