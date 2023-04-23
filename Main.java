@@ -450,7 +450,7 @@ public class Main {
                     int tryParse2 = 0;
                     count = 0;// goes through input array
                     userInputStr = new String[INPUTMAX];
-                    userinputStr[count] = tempStudent.idHandling();
+                    userInputStr[count] = tempStudent.idHandling();
                     // check if there is already a student
                     check = list.checkId(Integer.parseInt(userInputStr[count]));
                     if (!check) {
@@ -644,11 +644,10 @@ public class Main {
 
                     break;
                 case 4:
+                TeachingAssistant tempTA = new TeachingAssistant();
                     count = 0;// goes through input array
                     userInputStr = new String[INPUTMAX];
-                    System.out.print("Enter UCF id:");
-                    userInputStr[count] = scanner.nextLine();
-                    TeachingAssistant tempTA = new TeachingAssistant();
+                    userInputStr[count] = tempTA.idHandling();
                     tempTA = (TeachingAssistant) (list.returnStudent(Integer.parseInt(userInputStr[count])));
                     if (tempTA == null) {
                         System.out.println("Sorry no TA found.");
@@ -683,11 +682,11 @@ public class Main {
                     }
                     break;
                 case 5:
+                Student tempStudent2 = new Student();
                     count = 0;// goes through input array
                     userInputStr = new String[INPUTMAX];
-                    System.out.print("Enter UCF id:");
-                    userInputStr[count] = scanner.nextLine();
-                    Student tempStudent2 = new Student();
+                    
+                    userInputStr[count] = tempStudent2.idHandling();
                     tempStudent2 = (Student) (list.returnStudent(Integer.parseInt(userInputStr[count])));
                     if (tempStudent2 != null) {
                         if(tempStudent2.getLeclabAttended() != null){
