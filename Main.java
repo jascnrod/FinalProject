@@ -10,8 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -45,7 +43,7 @@ public class Main {
             // There needs to be exception handling the entry of the wrong numbers
             switch (x) {
                 case 1:
-                    Faculty tempFukalty = new Faculty();
+                    Faculty tempfaculty1 = new Faculty();
                     // there needs to be exception handling for the input of incorrect info
                     System.out.print("Enter UCF id:");
                     userInputStr[count] = scanner.nextLine();
@@ -207,10 +205,10 @@ public class Main {
 
                         }
 
-                        tempFukalty.add(userInputStr, count);
-                        list.facultyAdd(tempFukalty);
+                        tempfaculty1.add(userInputStr, count);
+                        list.facultyAdd(tempfaculty1);
                     } else {
-                        tempFukalty = list.returnFaculty(Integer.parseInt(userInputStr[count]));
+                        tempfaculty1 = list.returnFaculty(Integer.parseInt(userInputStr[count]));
                         System.out.print("Enter how many lectures: ");
                         userInputStr[count] = scanner.nextLine();
                         count++;
@@ -355,7 +353,7 @@ public class Main {
                             }
 
                         }
-                        tempFukalty.changeLectureArr(userInputStr[count].split(" "));
+                        tempfaculty1.changeLectureArr(userInputStr[count].split(" "));
 
                     }
 
@@ -440,7 +438,7 @@ public class Main {
                             for (int i = 0; i < temp.length; i++) {
                                 if (Integer.parseInt(temp[i]) == 0) {
                                     // idk need to add check if crn is on the .txt
-                                    System.out.println("fuck this project");
+                                    System.out.println("forgot what to add here ");
                                 } else if (temp[i] != null) {
                                     // userInputStr[count] = userInputStr[count].concat(" " +temp[i]);
                                     (new Reader()).printClass(temp[i], path);
