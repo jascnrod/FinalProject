@@ -785,7 +785,7 @@ abstract class Knight {
                 }
                 if (!issue) {
                     try {
-                        if( String.valueOf(tryParse).length()<7)
+                        if( String.valueOf(tryParse).length()< 7 || String.valueOf(tryParse).length() > 7)
                         throw new idException();
                         break;
                     } catch (idException e) {
