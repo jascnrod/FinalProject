@@ -60,30 +60,11 @@ public class Main {
             // There needs to be exception handling the entry of the wrong numbers
             switch (x) {
                 case 1:
+                int tryParse=0;
                     Faculty tempfaculty1 = new Faculty();
-                    int tryParse = 0;
                     // there needs to be exception handling for the input of incorrect info
-                    while (true) {
-                        System.out.print("Enter UCF id:");
-                        userInputStr[count] = scanner.nextLine();
-                        try {
-                            tryParse = Integer.parseInt(userInputStr[count]);
-                            issue = false;
-                        }catch (Exception e){
-                            System.out.print("Enter a 7 digit number.\n");
-                            issue = true;
-                        }
-                        if (!issue) {
-                            try {
-                                if( String.valueOf(tryParse).length()<7)
-                                throw new idException();
-                                break;
-                            } catch (idException e) {
-                                System.out.println(e.getMessage());
-                            }
-                        }
-                    }
-                    check = list.checkId(tryParse);
+                    userInputStr[count] = tempfaculty1.idHandling();
+                    check = list.checkId(Integer.parseInt(userInputStr[count]));
                     // this is for if the ucf id is new
                     if (!check) {
                         count++;
@@ -93,16 +74,11 @@ public class Main {
                         count++;
                         //Rank is never specified in rules besides saying upper case and lowercase mix is allowed.
                         //So I'm converting all to lowercase.
-                        while(true) {
+                   
                             System.out.print("Enter rank: ");
                             userInputStr[count] = scanner.nextLine();
-                            try {
-                                tryParse = Integer.parseInt(userInputStr[count]);
-                            } catch (Exception e) {
-                               break;
-                            }
-                            System.out.println("Number entry not allowed.");
-                        }
+                           
+                        
                         userInputStr[count] = userInputStr[count].toLowerCase();
                         count++;
                         System.out.print("Enter office location: ");
@@ -226,21 +202,11 @@ public class Main {
                                             System.out.println("TA's supervisor's name: ");
                                             userInputStr2[count2] = scanner.nextLine();
                                             count2++;
-                                            while(!issue) {
+                         
                                                 System.out.println("Degree Seeking: ");
                                                 userInputStr2[count2] = scanner.nextLine();
-                                                try {
-                                                    tryParse = Integer.parseInt(userInputStr[count]);
-                                                }catch (Exception e){
-                                                    System.out.println("degrees are ms or phd");
-                                                    issue = false;
-                                                }
-                                                if (!issue) {
-                                                    if(userInputStr2[count].equalsIgnoreCase("phd")|| (userInputStr2[count].equalsIgnoreCase("ms") ))
-                                                    issue = true;
-                                                }
-                                            }
-
+                                                
+                                          
                                             count2++;
                                             userInputStr2[count2] = templabCrn[0];
                                             ((TeachingAssistant) tempTA).addTA(userInputStr2);
@@ -262,20 +228,9 @@ public class Main {
                                                 count2++;
                                                 // when inputting this into the object write code to update the type of
                                                 // student
-                                                while(!issue) {
+                                    
                                                     System.out.println("Degree Seeking: ");
-                                                    userInputStr2[count2] = scanner.nextLine();
-                                                    try {
-                                                        tryParse = Integer.parseInt(userInputStr[count]);
-                                                    }catch (Exception e){
-                                                        System.err.println(e.getMessage());
-                                                        issue = false;
-                                                    }
-                                                    if (!issue) {
-                                                        if(userInputStr2[count].equalsIgnoreCase("phd")|| (userInputStr2[count].equalsIgnoreCase("ms") ))
-                                                        issue = true;
-                                                    }
-                                                }
+                                                    
                                                 count2++;
                                                 userInputStr2[count2] = templabCrn[0];
                                                 ((TeachingAssistant) tempTA).addTA(userInputStr2);
@@ -331,7 +286,6 @@ public class Main {
                             break;
                         }
                         String[] availiableLectures = list.checkLecture(userInputStr[count].split(" "));
-                        // maybe turn this into a exception catch
                         for (int j = 0; j < lecturesSplit.length; j++) {
                             // if these two are different than we gotta get rid of the taken lecture
                             if (!(lecturesSplit[j].equals(availiableLectures[j]))) {
@@ -428,7 +382,9 @@ public class Main {
                                             System.out.println("TA's supervisor's name: ");
                                             userInputStr2[count2] = scanner.nextLine();
                                             count2++;
-                                            System.out.println("Degree Seeking: ");
+                                           
+                                                System.out.println("Degree Seeking: ");
+                                               
                                             userInputStr2[count2] = scanner.nextLine();
                                             count2++;
                                             userInputStr2[count2] = templabCrn[0];
@@ -436,8 +392,7 @@ public class Main {
                                             list.teachingassistantAdd((TeachingAssistant) tempTA);
 
                                         } else {
-                                            tempTA = (TeachingAssistant) list
-                                                    .returnStudent(Integer.parseInt(userInputStr2[count2]));
+                                            tempTA = (TeachingAssistant) list.returnStudent(Integer.parseInt(userInputStr2[count2]));
                                             count2++;
                                             if (((TeachingAssistant) tempTA).getLabs() == null) {
 
@@ -492,10 +447,10 @@ public class Main {
                 case 2:
                     TeachingAssistant tempStudent = new Student();
                     Random rand = new Random();
+                    int tryParse2 = 0;
                     count = 0;// goes through input array
                     userInputStr = new String[INPUTMAX];
-                    System.out.print("Enter UCF id:");
-                    userInputStr[count] = scanner.nextLine();
+                    userInputStr[count] = tempStudent.idHandling();
                     // check if there is already a student
                     check = list.checkId(Integer.parseInt(userInputStr[count]));
                     if (!check) {
@@ -689,11 +644,10 @@ public class Main {
 
                     break;
                 case 4:
+                TeachingAssistant tempTA = new TeachingAssistant();
                     count = 0;// goes through input array
                     userInputStr = new String[INPUTMAX];
-                    System.out.print("Enter UCF id:");
-                    userInputStr[count] = scanner.nextLine();
-                    TeachingAssistant tempTA = new TeachingAssistant();
+                    userInputStr[count] = tempTA.idHandling();
                     tempTA = (TeachingAssistant) (list.returnStudent(Integer.parseInt(userInputStr[count])));
                     if (tempTA == null) {
                         System.out.println("Sorry no TA found.");
@@ -728,11 +682,11 @@ public class Main {
                     }
                     break;
                 case 5:
+                Student tempStudent2 = new Student();
                     count = 0;// goes through input array
                     userInputStr = new String[INPUTMAX];
-                    System.out.print("Enter UCF id:");
-                    userInputStr[count] = scanner.nextLine();
-                    Student tempStudent2 = new Student();
+                    
+                    userInputStr[count] = tempStudent2.idHandling();
                     tempStudent2 = (Student) (list.returnStudent(Integer.parseInt(userInputStr[count])));
                     if (tempStudent2 != null) {
                         if(tempStudent2.getLeclabAttended() != null){
@@ -808,9 +762,38 @@ abstract class Knight {
     Reader reader = new Reader();
     private int ucfid = 0;
     private String name;
-
+    
     public int getUcfid() {
         return ucfid;
+    }
+    
+    public String idHandling() {
+        String userInputStr=null;
+        try (Scanner scanner = new Scanner(System.in)) {
+            int tryParse = 0;
+            boolean issue = true;
+            while (true) {
+                System.out.print("Enter UCF id:");
+                userInputStr = scanner.nextLine();
+                try {
+                    tryParse = Integer.parseInt(userInputStr);
+                    issue = false;
+                }catch (Exception e){
+                    System.out.print("Enter a 7 digit number.\n");
+                    issue = true;
+                }
+                if (!issue) {
+                    try {
+                        if( String.valueOf(tryParse).length()<7)
+                        throw new idException();
+                        break;
+                    } catch (idException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+        }
+        return userInputStr;
     }
 
     public void setUcfid(int ucfid) {
@@ -834,6 +817,7 @@ class Student extends TeachingAssistant {
     private String type;
 //changing exporting matching test outoput wednesday 152
     // need to check if the crn exists.
+ 
     public void printInfo(Student bonk, String path) {
         String[] leclab = bonk.getLeclabAttended().clone();
         // checking if any of the crns have labs tied to them.
