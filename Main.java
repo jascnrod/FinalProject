@@ -770,7 +770,7 @@ abstract class Knight {
     public String idHandling() {
         String userInputStr=null;
         Scanner scanner = new Scanner(System.in);
-        try {
+      
             int tryParse = 0;
             boolean issue = true;
             while (true) {
@@ -793,7 +793,8 @@ abstract class Knight {
                     }
                 }
             }
-        }
+            scanner.close();
+        
         return userInputStr;
     }
 
