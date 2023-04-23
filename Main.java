@@ -631,9 +631,9 @@ public class Main {
                 case 3:
                     count = 0;// goes through input array
                     userInputStr = new String[INPUTMAX];
-                    System.out.print("Enter UCF id:");
-                    userInputStr[count] = scanner.nextLine();
                     Faculty tempFaculty = new Faculty();
+                    
+                    userInputStr[count] = tempFaculty.idHandling();
                     tempFaculty = list.returnFaculty(Integer.parseInt(userInputStr[count]));
                     if (tempFaculty != null)
                         tempFaculty.printInfo(tempFaculty, path);
@@ -769,7 +769,8 @@ abstract class Knight {
     
     public String idHandling() {
         String userInputStr=null;
-        try (Scanner scanner = new Scanner(System.in)) {
+        Scanner scanner = new Scanner(System.in);
+        try {
             int tryParse = 0;
             boolean issue = true;
             while (true) {
