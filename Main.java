@@ -722,9 +722,8 @@ public class Main {
                     // faculty/student record who is teaching/taking that lecture
                     break;
                 case 7:
+                userInputStr = new String[INPUTMAX];
                     if (countdel != 0) {
-
-                        userInputStr = new String[INPUTMAX];
                         System.out.println("You have made a deletion of at least one lecture. Would you like to" +
                                 "print the copy of lec.txt? Enter y/Y for Yes or n/N for No:");
                         userInputStr[0] = scanner.nextLine();
@@ -745,13 +744,12 @@ public class Main {
                             }
 
                     }
-                    if (userInputStr[0].equals("Y")) {
+                    
 
                         reader.printEverything(path);
                         System.out.println("Bye!");
                         break;
-
-                    }
+            
             }
         }
         scanner.close();
