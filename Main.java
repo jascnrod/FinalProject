@@ -177,7 +177,7 @@ public class Main {
                                             System.out.println("Enter TA's id for " + templabCrn[0] + ":");
                                             userInputStr2[count2] = scanner.nextLine();
                                             try {
-                                                tryParse = Integer.parseInt(userInputStr[count]);
+                                                tryParse = Integer.parseInt(userInputStr2[count2]);
                                                 issue=false;
                                             }catch (Exception e){
                                                 System.err.println(e.getMessage());
@@ -449,7 +449,6 @@ public class Main {
                 case 2:
                     TeachingAssistant tempStudent = new Student();
                     Random rand = new Random();
-                    int tryParse2 = 0;
                     count = 0;// goes through input array
                     userInputStr = new String[INPUTMAX];
                     userInputStr[count] = tempStudent.idHandling();
