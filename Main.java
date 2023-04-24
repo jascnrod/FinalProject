@@ -744,12 +744,17 @@ public class Main {
                             }
 
                     }
-                    
+                    if (userInputStr[0].equals("Y") && (userInputStr[0] != null)) {
 
                         reader.printEverything(path);
                         System.out.println("Bye!");
                         break;
-            
+                    }
+                    else {
+
+                        System.out.println("Bye!");
+                        break;
+                    }
             }
         }
         scanner.close();
