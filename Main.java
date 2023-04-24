@@ -713,7 +713,7 @@ public class Main {
                     userInputStr[0] = scanner.nextLine();
                     countdel++;
                     try {
-                        String deletedInfo = reader.getCrnInfo(userInputStr[count], path); // retrieve the deleted information
+                        String deletedInfo = reader.printNecessary2(userInputStr[count], path); // retrieve the deleted information
                         reader.deleteCrn(userInputStr[count], path);
                         System.out.println("[" + deletedInfo + "] Deleted");
                     } catch (IOException e) {
