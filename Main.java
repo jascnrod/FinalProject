@@ -500,7 +500,7 @@ public class Main {
                                     }
                                     int randint = rand.nextInt(labs.length - 1);
                                     String[] templabCrn = labs[randint].split(",");
-                                    System.out.println("[" + userInputStr[1] + "] is add to lab : " + templabCrn[0]);
+                                    System.out.println("[" + userInputStr[1] + "] is added to lab : " + templabCrn[0]);
                                     if (userInputStr[count] == null) {
                                         userInputStr[count] = nolabCrn[i];
                                         userInputStr[count] = userInputStr[count].concat(" " + templabCrn[0]);
@@ -510,6 +510,7 @@ public class Main {
                                     }
                                 }
                             }
+                            System.out.println("Student Enrolled!");
                             ((Student) tempStudent).addStudent(userInputStr);
                             list.studentAdd((Student) tempStudent);
                         } else {
