@@ -77,11 +77,14 @@ public class Main {
                         //Rank is never specified in rules besides saying upper case and lowercase mix is allowed.
                         //So I'm converting all to lowercase.
                    
-                            System.out.print("Enter rank: ");
-                            userInputStr[count] = scanner.nextLine();
-                           
-                        
-                        userInputStr[count] = userInputStr[count].toLowerCase();
+                        String rank;
+                        System.out.print("Enter rank: ");
+                        rank = scanner.nextLine();
+                        while(!rank.equalsIgnoreCase("professor") && !rank.equalsIgnoreCase("associate professor") && !rank.equalsIgnoreCase("assistant professor") && !rank.equalsIgnoreCase("adjunct")){
+                            System.out.println("Enter a valid rank (Professor, Associate Professor, Assistant Professor, Adjunct): "); 
+                            rank = scanner.nextLine();
+                        }
+
                         count++;
                         System.out.print("Enter office location: ");
                         userInputStr[count] = scanner.nextLine();
