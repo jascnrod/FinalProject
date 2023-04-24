@@ -702,8 +702,7 @@ public class Main {
                         System.out.println("Student not found");
                     }
 
-                    // Then Print the UCF id, name and the crns of the lectures taught by the
-                    // faculty (No need to display anything else).
+                  
                     break;
                 case 6:
                     // print out deleted class
@@ -747,8 +746,8 @@ public class Main {
                             }
 
                     }
-                    if (userInputStr[0].equals("Y") && (userInputStr[0] != null)) {
-
+                    if (userInputStr[0] != null ) {
+                        
                         reader.printEverything(path);
                         System.out.println("Bye!");
                         break;
