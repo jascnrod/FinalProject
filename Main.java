@@ -502,7 +502,8 @@ public class Main {
                                     }
                                     int randint = rand.nextInt(labs.length - 1);
                                     String[] templabCrn = labs[randint].split(",");
-                                    System.out.println("[" + userInputStr[1] + "] is add to lab : " + templabCrn[0]);
+                                    System.out.println("[" + userInputStr[1] + "] is added to lab : " + templabCrn[0]);
+                                    System.out.println("Student enrolled!");
                                     if (userInputStr[count] == null) {
                                         userInputStr[count] = nolabCrn[i];
                                         userInputStr[count] = userInputStr[count].concat(" " + templabCrn[0]);
@@ -519,18 +520,7 @@ public class Main {
                             // needs to be edited, this only works for if there is one crnn i think
                             // not smart code
                             String[] temp = userInputStr[count].split(" ");
-
-                            for (int i = 0; i < temp.length; i++) {
-                                if (Integer.parseInt(temp[i]) == 0) {
-                                    // idk need to add check if crn is on the .txt
-                                    System.out.println("forgot what to add here ");
-                                } else if (temp[i] != null) {
-                                    // userInputStr[count] = userInputStr[count].concat(" " +temp[i]);
-                                    reader.printClass(temp[i], path);
-                                    System.out.println("student enrolled!");
-                                }
-
-                            }
+                            
 
                             ((Student) tempStudent).addStudent(userInputStr);
                             list.studentAdd((Student) tempStudent);
@@ -585,8 +575,8 @@ public class Main {
                                     }
                                     int randint = rand.nextInt(labs.length - 1);
                                     String[] templabCrn = labs[randint].split(",");
-                                    System.out.println(
-                                            "[" + tempStudent.getName() + "] is add to lab : " + templabCrn[0]);
+                                    System.out.println("[" + tempStudent.getName() + "] is added to lab : " + templabCrn[0]);
+                                    System.out.println("Student enrolled!");
                                     if (userInputStr[count] == null) {
                                         userInputStr[count] = nolabCrn[i].concat(" " + templabCrn[0]);
                                     } else {
@@ -613,14 +603,6 @@ public class Main {
                                             userInputStr[count] = userInputStr[count].concat(" " + temp2[k]);
                                         }
                                     }
-                                }
-                            }
-
-                            for (int i = 0; i < temp.length; i++) {
-                                if (temp[i] != null) {
-                                    userInputStr[count] = userInputStr[count].concat(" " + temp[i]);
-                                    reader.printClass(temp[i], path);
-                                    System.out.println("student enrolled!");
                                 }
                             }
 
