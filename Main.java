@@ -517,8 +517,7 @@ public class Main {
                             list.studentAdd((Student) tempStudent);
                         } else {
                             // this is if there is no lab contained in the crns inputed
-                            // needs to be edited, this only works for if there is one crnn i think
-                            // not smart code
+
                             String[] temp = userInputStr[count].split(" ");
                             
 
