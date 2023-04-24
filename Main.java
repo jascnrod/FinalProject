@@ -70,6 +70,7 @@ public class Main {
                     if (!check) {
                         count++;
                         System.out.print("Enter name: ");
+                        //scanner.nextLine();
                         //names can be whatever. Who am I to put rules on it
                         userInputStr[count] = scanner.nextLine();
                         count++;
@@ -794,7 +795,7 @@ abstract class Knight {
                     }
                 }
             }
-            scanner.close();
+            //scanner.close();
         
         return userInputStr;
     }
