@@ -748,7 +748,7 @@ public class Main {
 
                     }
                     if (userInputStr[0] != null ) {
-                        if(userInputStr[0].equals("N"))
+                        if(userInputStr[0].equals("Y"))
                         reader.printEverything(path);
                         System.out.println("Bye!");
                         break;
