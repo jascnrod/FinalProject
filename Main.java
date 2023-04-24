@@ -177,7 +177,7 @@ public class Main {
                                             System.out.println("Enter TA's id for " + templabCrn[0] + ":");
                                             userInputStr2[count2] = scanner.nextLine();
                                             try {
-                                                tryParse = Integer.parseInt(userInputStr2[count2]);
+                                                tryParse = Integer.parseInt(userInputStr[count]);
                                                 issue=false;
                                             }catch (Exception e){
                                                 System.err.println(e.getMessage());
@@ -702,7 +702,8 @@ public class Main {
                         System.out.println("Student not found");
                     }
 
-                  
+                    // Then Print the UCF id, name and the crns of the lectures taught by the
+                    // faculty (No need to display anything else).
                     break;
                 case 6:
                     // print out deleted class
@@ -714,7 +715,7 @@ public class Main {
                     try {
                         reader.printNecessary2(userInputStr[count], path); // retrieve the deleted information
                         reader.deleteCrn(userInputStr[count], path);
-                        System.out.print( "Deleted");
+                        System.out.print( " Deleted\n");
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
