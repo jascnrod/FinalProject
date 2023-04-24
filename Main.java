@@ -177,7 +177,7 @@ public class Main {
                                             System.out.println("Enter TA's id for " + templabCrn[0] + ":");
                                             userInputStr2[count2] = scanner.nextLine();
                                             try {
-                                                tryParse = Integer.parseInt(userInputStr[count]);
+                                                tryParse = Integer.parseInt(userInputStr2[count2]);
                                                 issue=false;
                                             }catch (Exception e){
                                                 System.err.println(e.getMessage());
@@ -747,7 +747,7 @@ public class Main {
 
                     }
                     if (userInputStr[0] != null ) {
-                        
+
                         reader.printEverything(path);
                         System.out.println("Bye!");
                         break;
