@@ -65,7 +65,7 @@ public class Main {
                     // there needs to be exception handling for the input of incorrect info
                     userInputStr[count] = tempfaculty1.idHandling();
                     check = list.checkId(Integer.parseInt(userInputStr[count]));
-                    count++;
+                   
                     // this is for if the ucf id is new
                     if (!check) {
                         count++;
